@@ -187,7 +187,7 @@
       <div class="recap-header">
         <div>
           <h2>Your Visit Recap</h2>
-          <p class="recap-date">March 29, 2026 — Dr. Patel, Oncology</p>
+          <p class="recap-date">Post-Surgery Results Call — Pathology Review</p>
         </div>
         <div class="recap-actions">
           <button class="btn btn-outline" id="btn-pdf">Export PDF</button>
@@ -209,8 +209,8 @@
             <button class="edit-btn" title="Edit this section">&#x270e;</button>
           </div>
           <div class="recap-card-body">
-            <p>Squamous cell carcinoma of the left palatine tonsil, <strong>Stage II (T2 N1 M0)</strong>. The tumor is approximately 3cm. One lymph node in the left neck is involved. PET scan shows no evidence of distant metastasis.</p>
-            <p>HPV-positive (p16+), which is associated with better treatment response and outcomes.</p>
+            <p>Squamous cell carcinoma confirmed in <strong>two lymph nodes in the left neck</strong>. The primary tumor origin is the <strong>left tonsil</strong>.</p>
+            <p><strong>No extranodal extension</strong> — the cancer has not spread outside the capsules of the lymph nodes. This is a positive finding and means chemotherapy may not be necessary at this stage.</p>
           </div>
         </div>
 
@@ -223,41 +223,42 @@
           </div>
           <div class="recap-card-body">
             <ul>
-              <li><strong>Radiation therapy:</strong> 35 sessions over 7 weeks, Monday through Friday. Starts April 1.</li>
-              <li><strong>Chemotherapy:</strong> Cisplatin, administered weekly during radiation. Given through port.</li>
-              <li><strong>Duration:</strong> April 1 – May 20, 2026</li>
-              <li><strong>Follow-up scan:</strong> 8 weeks after treatment ends (approx. July 15)</li>
+              <li><strong>Surgery:</strong> Remove the primary tumor in the left tonsil. Performed through the mouth under anesthesia, expected to last 2–3 hours.</li>
+              <li><strong>Hospital stay:</strong> Approximately 2 days post-surgery to ensure you can eat and drink comfortably.</li>
+              <li><strong>Radiation therapy:</strong> Required because cancer is present in more than one lymph node. Addresses microscopic disease and reduces recurrence risk.</li>
+              <li><strong>Reduced radiation dose:</strong> Surgery first may allow a lower dose of radiation, potentially decreasing severity of side effects.</li>
+              <li><strong>Consultation:</strong> Meeting with radiation oncologist to discuss radiation plan in detail.</li>
             </ul>
           </div>
         </div>
 
-        <!-- Medications -->
+        <!-- Key Findings -->
         <div class="recap-card">
           <div class="recap-card-header">
-            <div class="recap-card-icon">&#x1f48a;</div>
-            <h3>Medications</h3>
+            <div class="recap-card-icon">&#x1f50d;</div>
+            <h3>Key Findings</h3>
             <button class="edit-btn" title="Edit this section">&#x270e;</button>
           </div>
           <div class="recap-card-body">
             <div class="med-item">
-              <strong>Cisplatin</strong>
-              <span class="med-detail">40 mg/m² IV, weekly x 7 weeks</span>
-              <span class="med-purpose">Primary chemotherapy agent</span>
+              <strong>No extranodal extension</strong>
+              <span class="med-detail">Cancer contained within lymph node capsules</span>
+              <span class="med-purpose">Positive finding — chemotherapy likely not needed</span>
             </div>
             <div class="med-item">
-              <strong>Ondansetron (Zofran)</strong>
-              <span class="med-detail">8mg as needed, every 8 hours</span>
-              <span class="med-purpose">Anti-nausea during chemo</span>
+              <strong>Primary tumor identified</strong>
+              <span class="med-detail">Left tonsil confirmed as origin site</span>
+              <span class="med-purpose">Surgical removal is next step</span>
             </div>
             <div class="med-item">
-              <strong>Magic Mouthwash</strong>
-              <span class="med-detail">Swish & spit, 4x daily as needed</span>
-              <span class="med-purpose">Mouth sore relief from radiation</span>
+              <strong>Multiple lymph nodes involved</strong>
+              <span class="med-detail">Cancer found in 2 left neck lymph nodes</span>
+              <span class="med-purpose">Radiation therapy will be required</span>
             </div>
             <div class="med-item">
-              <strong>Oxycodone 5mg</strong>
-              <span class="med-detail">As needed for throat pain</span>
-              <span class="med-purpose">Pain management</span>
+              <strong>Revised imaging needed</strong>
+              <span class="med-detail">PET scan scheduled too far out</span>
+              <span class="med-purpose">CT scan of chest ordered as stand-in to check for distant spread</span>
             </div>
           </div>
         </div>
@@ -273,27 +274,19 @@
             <div class="action-list">
               <label class="action-item">
                 <input type="checkbox">
-                <span>Schedule dental clearance before April 1</span>
-              </label>
-              <label class="action-item">
-                <input type="checkbox" checked>
-                <span>Port placement — completed March 13</span>
-              </label>
-              <label class="action-item">
-                <input type="checkbox" checked>
-                <span>Radiation mask fitting — completed March 12</span>
+                <span>Wait for call from surgical scheduler to set tonsil removal date (within 1–2 weeks)</span>
               </label>
               <label class="action-item">
                 <input type="checkbox">
-                <span>Get baseline bloodwork done (CBC, CMP, Mg) — by March 28</span>
+                <span>CT scan of chest (replaces delayed PET scan)</span>
               </label>
               <label class="action-item">
                 <input type="checkbox">
-                <span>Pick up prescriptions from pharmacy</span>
+                <span>Meet with radiation oncologist to discuss radiation plan</span>
               </label>
               <label class="action-item">
                 <input type="checkbox">
-                <span>Schedule feeding tube consultation (precautionary)</span>
+                <span>Prepare for tonsil removal surgery (2–3 hours, 2-day hospital stay)</span>
               </label>
             </div>
           </div>
@@ -309,12 +302,12 @@
           <div class="recap-card-body">
             <p class="questions-intro">Based on your conversation, here are questions you may want to ask at your next appointment:</p>
             <ol class="questions-list">
-              <li>What are the most common side effects of cisplatin, and when should I call the office?</li>
-              <li>At what point would a feeding tube become necessary?</li>
-              <li>How will we know if the treatment is working before the follow-up scan?</li>
-              <li>Are there dietary supplements I should avoid during chemo?</li>
-              <li>What kind of exercise or activity is safe during treatment?</li>
-              <li>Should I get a flu shot or other vaccinations before starting?</li>
+              <li>What will the recovery look like after the tonsil removal surgery?</li>
+              <li>How long after surgery before radiation therapy begins?</li>
+              <li>What are the expected side effects of radiation to the throat area?</li>
+              <li>How much will the reduced radiation dose lower the risk of side effects?</li>
+              <li>What did the CT scan of the chest show?</li>
+              <li>Will I need any dietary changes during treatment and recovery?</li>
             </ol>
           </div>
         </div>
@@ -328,10 +321,10 @@
         </button>
         <div class="transcript-body" id="transcript-body" style="display:none;">
           <div class="transcript-content">
-            <p><strong>Dr. Patel:</strong> So Chris, I've had a chance to review all your imaging and pathology results, and I want to walk you through everything today so we can put together a treatment plan.</p>
-            <p><strong>Chris:</strong> Okay. I'm recording this if that's all right — just so I can go back and listen.</p>
-            <p><strong>Dr. Patel:</strong> Of course, absolutely. So what we're looking at is a squamous cell carcinoma of the left palatine tonsil. The biopsy confirmed it, and the good news is that it's HPV-positive, which we call p16-positive. That's actually favorable because HPV-related throat cancers tend to respond very well to treatment...</p>
-            <p class="transcript-fade"><em>[Full transcript continues — 23 minutes]</em></p>
+            <p><strong>Doctor:</strong> So I have your final pathology results from the surgery. The pathology confirms squamous cell carcinoma in two lymph nodes in your left neck, and it confirms that the primary tumor — where this originated — is in your left tonsil.</p>
+            <p><strong>Chris:</strong> Okay. Can I record this? I know I'm not going to remember everything.</p>
+            <p><strong>Doctor:</strong> Of course, absolutely. So the good news is there's no extranodal extension — meaning the cancer hasn't spread outside the capsules of the lymph nodes. That's important because it generally means we may not need chemotherapy at this stage...</p>
+            <p class="transcript-fade"><em>[Full transcript from call recording]</em></p>
           </div>
         </div>
       </div>
@@ -388,28 +381,28 @@
               <input type="checkbox" value="diagnosis" checked>
               <span class="share-option-text">
                 <strong>Diagnosis</strong>
-                <em>Squamous cell carcinoma, Stage II, HPV-positive</em>
+                <em>Squamous cell carcinoma, 2 lymph nodes, left tonsil origin</em>
               </span>
             </label>
             <label class="share-option">
               <input type="checkbox" value="treatment" checked>
               <span class="share-option-text">
                 <strong>Treatment Plan</strong>
-                <em>7 weeks radiation + chemo, starting April 1</em>
+                <em>Tonsil removal surgery, then radiation therapy</em>
               </span>
             </label>
             <label class="share-option">
-              <input type="checkbox" value="medications">
+              <input type="checkbox" value="findings">
               <span class="share-option-text">
-                <strong>Medications</strong>
-                <em>Cisplatin, Zofran, Magic Mouthwash, Oxycodone</em>
+                <strong>Key Findings</strong>
+                <em>No extranodal extension, chemo likely not needed</em>
               </span>
             </label>
             <label class="share-option">
               <input type="checkbox" value="actions" checked>
               <span class="share-option-text">
                 <strong>Action Items</strong>
-                <em>Dental clearance, bloodwork, prescriptions</em>
+                <em>Surgery scheduling, CT scan, radiation oncologist consult</em>
               </span>
             </label>
             <label class="share-option">
