@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — AfterWords</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-bg-warm, #faf9f7);
+      padding: var(--space-md);
+    }
+
+    .login-card {
+      background: white;
+      border-radius: 16px;
+      padding: var(--space-lg);
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    .login-logo {
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .login-logo span {
+      color: var(--color-accent);
+    }
+
+    .login-tagline {
+      color: var(--color-text-light);
+      font-size: 0.9rem;
+      margin-bottom: var(--space-md);
+    }
+
+    .login-form {
+      text-align: left;
+    }
+
+    .login-form label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 0.4rem;
+      color: var(--color-text);
+    }
+
+    .login-form input[type="email"] {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--color-border, #e0ddd8);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      margin-bottom: var(--space-sm);
+      transition: border-color 0.2s;
+    }
+
+    .login-form input[type="email"]:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(42, 125, 110, 0.1);
+    }
+
+    .login-form .btn {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+    }
+
+    .login-message {
+      margin-top: var(--space-sm);
+      padding: 0.75rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      display: none;
+    }
+
+    .login-message.success {
+      display: block;
+      background: var(--color-primary-light);
+      color: var(--color-primary-dark, #1d5a4f);
+    }
+
+    .login-message.error {
+      display: block;
+      background: #fde8e8;
+      color: #c53030;
+    }
+
+    .login-footer {
+      margin-top: var(--space-md);
+      font-size: 0.8rem;
+      color: var(--color-text-light);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-page">
+    <div class="login-card">
+      <div class="login-logo">After<span>Words</span></div>
+      <p class="login-tagline">Because every word matters.</p>
+
+      <form class="login-form" id="login-form">
+        <label for="email">Email address</label>
+        <input type="email" id="email" placeholder="you@example.com" required autofocus>
+        <button type="submit" class="btn btn-primary" id="btn-login">Send Magic Link</button>
+      </form>
+
+      <div class="login-message" id="login-message"></div>
+
+      <p class="login-footer">
+        No password needed — we'll email you a secure sign-in link.
+      </p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase.js"></script>
+  <script>
+    // If already logged in, redirect to dashboard
+    (async () => {
+      const session = await getSession();
+      if (session) {
+        window.location.href = 'dashboard.html';
+      }
+    })();
+
+    const form = document.getElementById('login-form');
+    const message = document.getElementById('login-message');
+    const btnLogin = document.getElementById('btn-login');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+
+      btnLogin.disabled = true;
+      btnLogin.textContent = 'Sending...';
+      message.style.display = 'none';
+
+      const { error } = await signInWithMagicLink(email);
+
+      if (error) {
+        message.className = 'login-message error';
+        message.textContent = error.message;
+        message.style.display = 'block';
+        btnLogin.disabled = false;
+        btnLogin.textContent = 'Send Magic Link';
+      } else {
+        message.className = 'login-message success';
+        message.textContent = 'Check your email! We sent you a sign-in link.';
+        message.style.display = 'block';
+        btnLogin.textContent = 'Link Sent';
+      }
+    });
+  </script>
+
+</body>
+</html>
