@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — AfterWords</title>
+  <meta name="description" content="Your AfterWords dashboard. View recaps, manage your Care Circle, and stay organized.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="logo">After<span>Words</span></a>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <nav>
+        <a href="record.html">New Recap</a>
+        <a href="care-circle.html">My Care Circle</a>
+        <div class="nav-user">
+          <div class="nav-avatar">CH</div>
+          <span>Chris</span>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Welcome -->
+  <section class="dash-welcome">
+    <div class="container">
+      <div class="welcome-content">
+        <div>
+          <h1>Welcome back, Chris</h1>
+          <p class="welcome-sub">Week 4 of 7 — you're more than halfway there.</p>
+        </div>
+        <a href="record.html" class="btn btn-primary">New Visit Recap</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Stats -->
+  <section class="dash-stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">&#x1f399;</div>
+          <div class="stat-number">3</div>
+          <div class="stat-label">Visit Recaps</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">&#x1f465;</div>
+          <div class="stat-number">24</div>
+          <div class="stat-label">Care Circle Followers</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">&#x1f4ac;</div>
+          <div class="stat-number">18</div>
+          <div class="stat-label">Messages of Support</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">&#x2705;</div>
+          <div class="stat-number">4/6</div>
+          <div class="stat-label">Action Items Done</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Dashboard Grid -->
+  <section class="dash-main section">
+    <div class="container">
+      <div class="dash-grid">
+
+        <!-- Left Column: Recaps -->
+        <div class="dash-column">
+          <div class="dash-section-header">
+            <h2>Visit Recaps</h2>
+            <a href="record.html" class="btn btn-outline btn-sm">New Recap</a>
+          </div>
+
+          <!-- Recap Card 1 — Most Recent -->
+          <a href="record.html" class="recap-link">
+            <div class="dash-recap-card latest">
+              <div class="recap-badge-new">Latest</div>
+              <div class="dash-recap-header">
+                <div class="dash-recap-date">
+                  <span class="recap-day">Mar 29</span>
+                  <span class="recap-doctor">Dr. Patel — Oncology</span>
+                </div>
+              </div>
+              <div class="dash-recap-summary">
+                <div class="recap-tag">Diagnosis</div>
+                <p>Squamous cell carcinoma, Stage II (T2 N1 M0). HPV-positive. No distant spread.</p>
+              </div>
+              <div class="dash-recap-summary">
+                <div class="recap-tag accent">Treatment</div>
+                <p>7 weeks radiation + cisplatin chemo starting April 1.</p>
+              </div>
+              <div class="dash-recap-footer">
+                <span class="recap-actions-count">6 action items</span>
+                <span class="recap-status shared">Shared to Care Circle</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Recap Card 2 -->
+          <a href="record.html" class="recap-link">
+            <div class="dash-recap-card">
+              <div class="dash-recap-header">
+                <div class="dash-recap-date">
+                  <span class="recap-day">Mar 21</span>
+                  <span class="recap-doctor">Dr. Patel — Oncology</span>
+                </div>
+              </div>
+              <div class="dash-recap-summary">
+                <div class="recap-tag">Check-in</div>
+                <p>Week 3 blood work results. White cell count holding steady. Discussed throat soreness management.</p>
+              </div>
+              <div class="dash-recap-footer">
+                <span class="recap-actions-count">2 action items</span>
+                <span class="recap-status shared">Shared to Care Circle</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Recap Card 3 -->
+          <a href="record.html" class="recap-link">
+            <div class="dash-recap-card">
+              <div class="dash-recap-header">
+                <div class="dash-recap-date">
+                  <span class="recap-day">Mar 7</span>
+                  <span class="recap-doctor">Dr. Nguyen — ENT</span>
+                </div>
+              </div>
+              <div class="dash-recap-summary">
+                <div class="recap-tag">Initial Consult</div>
+                <p>Biopsy results reviewed. Referral to oncology for treatment planning. PET scan ordered.</p>
+              </div>
+              <div class="dash-recap-footer">
+                <span class="recap-actions-count">3 action items</span>
+                <span class="recap-status">Not shared</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Right Column: Care Circle + Actions -->
+        <div class="dash-column">
+
+          <!-- Care Circle Overview -->
+          <div class="dash-section-header">
+            <h2>Care Circle</h2>
+            <a href="care-circle.html" class="btn btn-outline btn-sm">View Page</a>
+          </div>
+
+          <div class="dash-care-card">
+            <div class="care-card-status">
+              <span class="status-indicator good"></span>
+              <span class="care-card-status-text">Your page is live</span>
+              <span class="care-card-followers">24 followers</span>
+            </div>
+            <div class="care-card-latest">
+              <span class="care-card-label">Latest Update</span>
+              <p>Week 4 check-in — blood work looks good, throat soreness manageable, 3 more weeks to go.</p>
+              <span class="care-card-time">2 hours ago</span>
+            </div>
+            <div class="care-card-messages">
+              <span class="care-card-label">Recent Messages</span>
+              <div class="care-card-message">
+                <strong>Mike D.</strong> — "Crushing it brother. Beers are on me when you're done."
+              </div>
+              <div class="care-card-message">
+                <strong>Aunt Linda</strong> — "Praying for you every single day sweetheart."
+              </div>
+              <div class="care-card-message">
+                <strong>Tom &amp; Jen</strong> — "Dropped off soup with Sarah. You've got this!"
+              </div>
+            </div>
+            <div class="care-card-actions">
+              <a href="care-circle.html" class="btn btn-primary btn-sm">Post Update</a>
+              <button class="btn btn-outline btn-sm" id="btn-copy-link">Copy Share Link</button>
+            </div>
+          </div>
+
+          <!-- Action Items -->
+          <div class="dash-section-header" style="margin-top: var(--space-md);">
+            <h2>Action Items</h2>
+          </div>
+
+          <div class="dash-actions-card">
+            <div class="dash-progress-header">
+              <span>4 of 6 completed</span>
+              <span class="dash-progress-pct">67%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 67%"></div>
+            </div>
+
+            <div class="dash-action-list">
+              <label class="dash-action-item">
+                <input type="checkbox" checked>
+                <span>Port placement</span>
+                <em>Mar 13</em>
+              </label>
+              <label class="dash-action-item">
+                <input type="checkbox" checked>
+                <span>Radiation mask fitting</span>
+                <em>Mar 12</em>
+              </label>
+              <label class="dash-action-item">
+                <input type="checkbox" checked>
+                <span>Baseline bloodwork (CBC, CMP, Mg)</span>
+                <em>Mar 26</em>
+              </label>
+              <label class="dash-action-item">
+                <input type="checkbox" checked>
+                <span>Pick up prescriptions</span>
+                <em>Mar 28</em>
+              </label>
+              <label class="dash-action-item">
+                <input type="checkbox">
+                <span>Schedule dental clearance before April 1</span>
+              </label>
+              <label class="dash-action-item">
+                <input type="checkbox">
+                <span>Schedule feeding tube consultation</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Upcoming -->
+          <div class="dash-section-header" style="margin-top: var(--space-md);">
+            <h2>Coming Up</h2>
+          </div>
+
+          <div class="dash-upcoming-card">
+            <div class="upcoming-item">
+              <div class="upcoming-date">
+                <span class="upcoming-day">1</span>
+                <span class="upcoming-month">Apr</span>
+              </div>
+              <div class="upcoming-info">
+                <strong>Treatment begins</strong>
+                <p>First radiation + cisplatin infusion</p>
+              </div>
+            </div>
+            <div class="upcoming-item">
+              <div class="upcoming-date">
+                <span class="upcoming-day">4</span>
+                <span class="upcoming-month">Apr</span>
+              </div>
+              <div class="upcoming-info">
+                <strong>Dr. Patel — Weekly check-in</strong>
+                <p>Blood work review</p>
+              </div>
+            </div>
+            <div class="upcoming-item">
+              <div class="upcoming-date">
+                <span class="upcoming-day">22</span>
+                <span class="upcoming-month">Apr</span>
+              </div>
+              <div class="upcoming-info">
+                <strong>Mid-treatment scan</strong>
+                <p>PET/CT to check treatment response</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>Powered by <a href="../index.html" class="logo-inline">After<span>Words</span></a> &mdash; Because every word matters.</p>
+    </div>
+  </footer>
+
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,417 @@
+/* ========================================
+   AfterWords — Care Circle Page
+   ======================================== */
+
+/* --- Patient Hero --- */
+.care-hero {
+  padding: var(--space-lg) 0 var(--space-md);
+  background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-bg) 100%);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.care-profile {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.care-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.care-info h1 {
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  margin-bottom: 0.25rem;
+}
+
+.care-tagline {
+  color: var(--color-text-light);
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.care-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.care-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: var(--color-accent-light);
+  color: var(--color-accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 20px;
+}
+
+.care-date {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+}
+
+/* --- Current Status Card --- */
+.care-status {
+  padding: var(--space-md) 0;
+}
+
+.status-card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  padding: var(--space-md);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.status-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.status-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-indicator.good {
+  background: #27ae60;
+  box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2);
+}
+
+.status-indicator.tough {
+  background: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(232, 148, 74, 0.2);
+}
+
+.status-indicator.critical {
+  background: #e74c3c;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+}
+
+.status-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.status-updated {
+  font-size: 0.8rem;
+  color: var(--color-text-light);
+  margin-left: auto;
+}
+
+.status-text {
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: var(--space-sm);
+}
+
+/* Progress bar */
+.status-progress {
+  margin-top: var(--space-sm);
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: var(--color-text-light);
+  margin-bottom: 0.4rem;
+}
+
+.progress-bar {
+  height: 8px;
+  background: var(--color-primary-light);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-dark));
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+/* --- Section Titles --- */
+.section-title {
+  font-size: 1.4rem;
+  margin-bottom: var(--space-md);
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-primary-light);
+}
+
+/* --- Updates Feed --- */
+.updates-feed {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.update-card {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.update-date-marker {
+  flex-shrink: 0;
+  width: 52px;
+  text-align: center;
+  padding-top: 0.25rem;
+}
+
+.update-day {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.update-month {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--color-text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.update-content {
+  flex: 1;
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  padding: var(--space-md);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.update-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.update-author {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.update-badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  font-size: 0.72rem;
+  font-weight: 600;
+  border-radius: 12px;
+}
+
+.update-time {
+  font-size: 0.8rem;
+  color: var(--color-text-light);
+  margin-left: auto;
+}
+
+.update-content h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.update-content p {
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+  max-width: none;
+}
+
+.update-content p:last-of-type {
+  margin-bottom: 0;
+}
+
+/* Reactions */
+.update-reactions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: var(--space-sm);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--color-border);
+}
+
+.reaction {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.reaction:hover {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.reaction.active {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+/* --- Messages Section --- */
+.care-messages {
+  background: var(--color-white);
+}
+
+.message-form {
+  margin-bottom: var(--space-lg);
+}
+
+.message-form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.message-name {
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  max-width: 280px;
+  transition: border-color 0.2s;
+}
+
+.message-name:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.message-text {
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  min-height: 100px;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+
+.message-text:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* Messages list */
+.messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.message-card {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-bg);
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+}
+
+.message-author {
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: inline;
+}
+
+.message-date {
+  font-size: 0.8rem;
+  color: var(--color-text-light);
+  display: inline;
+  margin-left: 0.5rem;
+}
+
+.message-card p {
+  margin-top: 0.35rem;
+  font-size: 0.93rem;
+  color: var(--color-text-light);
+  max-width: none;
+}
+
+/* --- Footer override --- */
+.logo-inline {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.logo-inline span {
+  color: var(--color-accent);
+}
+
+/* --- Small button variant --- */
+.btn-sm {
+  padding: 0.55rem 1.25rem;
+  font-size: 0.85rem;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .care-profile {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .care-meta {
+    justify-content: center;
+  }
+
+  .update-card {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .update-date-marker {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    width: auto;
+    margin-bottom: 0.5rem;
+  }
+
+  .update-day {
+    font-size: 1.1rem;
+  }
+
+  .status-updated {
+    margin-left: 0;
+    width: 100%;
+    margin-top: 0.25rem;
+  }
+
+  .message-name {
+    max-width: none;
+  }
+}

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visit Recap — AfterWords</title>
+  <meta name="description" content="Record or upload your doctor visit and get a clear, structured summary.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/record.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="logo">After<span>Words</span></a>
+      <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="care-circle.html">My Care Circle</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Title -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Visit Recap</h1>
+      <p>Record your appointment or upload a recording. We'll transcribe it and create a clear summary you can review.</p>
+    </div>
+  </section>
+
+  <!-- Step 1: Record or Upload -->
+  <section class="recorder-section" id="step-record">
+    <div class="container">
+      <div class="step-indicator">
+        <div class="step-dot active" data-step="1">1</div>
+        <div class="step-line"></div>
+        <div class="step-dot" data-step="2">2</div>
+        <div class="step-line"></div>
+        <div class="step-dot" data-step="3">3</div>
+      </div>
+      <div class="step-labels">
+        <span class="active">Record</span>
+        <span>Transcribe</span>
+        <span>Review</span>
+      </div>
+
+      <div class="recorder-card">
+        <!-- Tab toggle -->
+        <div class="recorder-tabs">
+          <button class="tab active" data-tab="record">Record Live</button>
+          <button class="tab" data-tab="upload">Upload Audio</button>
+        </div>
+
+        <!-- Record tab -->
+        <div class="tab-content active" id="tab-record">
+          <div class="consent-notice">
+            <span class="consent-icon">&#x26a0;&#xfe0f;</span>
+            <p><strong>Recording consent:</strong> Please ensure your healthcare provider knows you are recording. Laws vary by state — some require all-party consent.</p>
+          </div>
+
+          <div class="recorder-ui">
+            <div class="recorder-visual">
+              <div class="recorder-ring" id="recorder-ring">
+                <div class="recorder-circle" id="recorder-circle">
+                  <span class="recorder-icon" id="recorder-icon">&#x1f399;</span>
+                </div>
+              </div>
+              <div class="recorder-waveform" id="waveform">
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+              </div>
+            </div>
+
+            <div class="recorder-timer" id="recorder-timer">00:00</div>
+            <p class="recorder-status" id="recorder-status">Tap to start recording</p>
+
+            <div class="recorder-controls">
+              <button class="btn btn-primary btn-lg" id="btn-record">Start Recording</button>
+              <button class="btn btn-outline btn-lg" id="btn-stop" style="display:none;">Stop &amp; Process</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upload tab -->
+        <div class="tab-content" id="tab-upload">
+          <div class="upload-zone" id="upload-zone">
+            <div class="upload-icon">&#x1f4c1;</div>
+            <h3>Drop your audio file here</h3>
+            <p>or click to browse</p>
+            <p class="upload-formats">Supports MP3, M4A, WAV, WebM — up to 120 minutes</p>
+            <input type="file" id="file-input" accept="audio/*" hidden>
+          </div>
+          <div class="upload-preview" id="upload-preview" style="display:none;">
+            <div class="upload-file-info">
+              <span class="file-icon">&#x1f3b5;</span>
+              <div>
+                <p class="file-name" id="file-name"></p>
+                <p class="file-size" id="file-size"></p>
+              </div>
+              <button class="file-remove" id="file-remove">&#x2715;</button>
+            </div>
+            <button class="btn btn-primary btn-lg" id="btn-upload-process">Process Recording</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 2: Processing -->
+  <section class="processing-section" id="step-process" style="display:none;">
+    <div class="container">
+      <div class="step-indicator">
+        <div class="step-dot done" data-step="1">&#x2713;</div>
+        <div class="step-line active"></div>
+        <div class="step-dot active" data-step="2">2</div>
+        <div class="step-line"></div>
+        <div class="step-dot" data-step="3">3</div>
+      </div>
+      <div class="step-labels">
+        <span class="done">Record</span>
+        <span class="active">Transcribe</span>
+        <span>Review</span>
+      </div>
+
+      <div class="processing-card">
+        <div class="processing-animation">
+          <div class="processing-spinner"></div>
+        </div>
+        <h2 id="processing-title">Transcribing your recording...</h2>
+        <p class="processing-sub" id="processing-sub">This usually takes 1–2 minutes. We're listening carefully.</p>
+        <div class="processing-steps">
+          <div class="p-step active" id="p-step-1">
+            <span class="p-step-icon spinning">&#x23F3;</span>
+            <span>Transcribing audio</span>
+          </div>
+          <div class="p-step" id="p-step-2">
+            <span class="p-step-icon">&#x23F3;</span>
+            <span>Analyzing medical content</span>
+          </div>
+          <div class="p-step" id="p-step-3">
+            <span class="p-step-icon">&#x23F3;</span>
+            <span>Generating your summary</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 3: Review Summary -->
+  <section class="recap-section" id="step-recap" style="display:none;">
+    <div class="container">
+      <div class="step-indicator">
+        <div class="step-dot done" data-step="1">&#x2713;</div>
+        <div class="step-line done"></div>
+        <div class="step-dot done" data-step="2">&#x2713;</div>
+        <div class="step-line active"></div>
+        <div class="step-dot active" data-step="3">3</div>
+      </div>
+      <div class="step-labels">
+        <span class="done">Record</span>
+        <span class="done">Transcribe</span>
+        <span class="active">Review</span>
+      </div>
+
+      <div class="recap-header">
+        <div>
+          <h2>Your Visit Recap</h2>
+          <p class="recap-date">March 29, 2026 — Dr. Patel, Oncology</p>
+        </div>
+        <div class="recap-actions">
+          <button class="btn btn-outline" id="btn-pdf">Export PDF</button>
+          <button class="btn btn-accent" id="btn-share">Share to Care Circle</button>
+        </div>
+      </div>
+
+      <div class="recap-disclaimer">
+        <span>&#x2139;&#xfe0f;</span>
+        <p><strong>Please review carefully.</strong> This summary was generated by AI and may contain errors. It is not medical advice. Always confirm details with your healthcare provider.</p>
+      </div>
+
+      <div class="recap-grid">
+        <!-- Diagnosis -->
+        <div class="recap-card">
+          <div class="recap-card-header">
+            <div class="recap-card-icon">&#x1f4cb;</div>
+            <h3>Diagnosis</h3>
+            <button class="edit-btn" title="Edit this section">&#x270e;</button>
+          </div>
+          <div class="recap-card-body">
+            <p>Squamous cell carcinoma of the left palatine tonsil, <strong>Stage II (T2 N1 M0)</strong>. The tumor is approximately 3cm. One lymph node in the left neck is involved. PET scan shows no evidence of distant metastasis.</p>
+            <p>HPV-positive (p16+), which is associated with better treatment response and outcomes.</p>
+          </div>
+        </div>
+
+        <!-- Treatment Plan -->
+        <div class="recap-card">
+          <div class="recap-card-header">
+            <div class="recap-card-icon accent">&#x1f489;</div>
+            <h3>Treatment Plan</h3>
+            <button class="edit-btn" title="Edit this section">&#x270e;</button>
+          </div>
+          <div class="recap-card-body">
+            <ul>
+              <li><strong>Radiation therapy:</strong> 35 sessions over 7 weeks, Monday through Friday. Starts April 1.</li>
+              <li><strong>Chemotherapy:</strong> Cisplatin, administered weekly during radiation. Given through port.</li>
+              <li><strong>Duration:</strong> April 1 – May 20, 2026</li>
+              <li><strong>Follow-up scan:</strong> 8 weeks after treatment ends (approx. July 15)</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Medications -->
+        <div class="recap-card">
+          <div class="recap-card-header">
+            <div class="recap-card-icon">&#x1f48a;</div>
+            <h3>Medications</h3>
+            <button class="edit-btn" title="Edit this section">&#x270e;</button>
+          </div>
+          <div class="recap-card-body">
+            <div class="med-item">
+              <strong>Cisplatin</strong>
+              <span class="med-detail">40 mg/m² IV, weekly x 7 weeks</span>
+              <span class="med-purpose">Primary chemotherapy agent</span>
+            </div>
+            <div class="med-item">
+              <strong>Ondansetron (Zofran)</strong>
+              <span class="med-detail">8mg as needed, every 8 hours</span>
+              <span class="med-purpose">Anti-nausea during chemo</span>
+            </div>
+            <div class="med-item">
+              <strong>Magic Mouthwash</strong>
+              <span class="med-detail">Swish & spit, 4x daily as needed</span>
+              <span class="med-purpose">Mouth sore relief from radiation</span>
+            </div>
+            <div class="med-item">
+              <strong>Oxycodone 5mg</strong>
+              <span class="med-detail">As needed for throat pain</span>
+              <span class="med-purpose">Pain management</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Items -->
+        <div class="recap-card">
+          <div class="recap-card-header">
+            <div class="recap-card-icon accent">&#x2705;</div>
+            <h3>Action Items</h3>
+            <button class="edit-btn" title="Edit this section">&#x270e;</button>
+          </div>
+          <div class="recap-card-body">
+            <div class="action-list">
+              <label class="action-item">
+                <input type="checkbox">
+                <span>Schedule dental clearance before April 1</span>
+              </label>
+              <label class="action-item">
+                <input type="checkbox" checked>
+                <span>Port placement — completed March 13</span>
+              </label>
+              <label class="action-item">
+                <input type="checkbox" checked>
+                <span>Radiation mask fitting — completed March 12</span>
+              </label>
+              <label class="action-item">
+                <input type="checkbox">
+                <span>Get baseline bloodwork done (CBC, CMP, Mg) — by March 28</span>
+              </label>
+              <label class="action-item">
+                <input type="checkbox">
+                <span>Pick up prescriptions from pharmacy</span>
+              </label>
+              <label class="action-item">
+                <input type="checkbox">
+                <span>Schedule feeding tube consultation (precautionary)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Questions for Next Visit -->
+        <div class="recap-card full-width">
+          <div class="recap-card-header">
+            <div class="recap-card-icon">&#x2753;</div>
+            <h3>Questions for Next Visit</h3>
+            <button class="edit-btn" title="Edit this section">&#x270e;</button>
+          </div>
+          <div class="recap-card-body">
+            <p class="questions-intro">Based on your conversation, here are questions you may want to ask at your next appointment:</p>
+            <ol class="questions-list">
+              <li>What are the most common side effects of cisplatin, and when should I call the office?</li>
+              <li>At what point would a feeding tube become necessary?</li>
+              <li>How will we know if the treatment is working before the follow-up scan?</li>
+              <li>Are there dietary supplements I should avoid during chemo?</li>
+              <li>What kind of exercise or activity is safe during treatment?</li>
+              <li>Should I get a flu shot or other vaccinations before starting?</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transcript toggle -->
+      <div class="transcript-section">
+        <button class="transcript-toggle" id="transcript-toggle">
+          <span>&#x1f4dc;</span> View Full Transcript
+          <span class="toggle-arrow">&#x25BC;</span>
+        </button>
+        <div class="transcript-body" id="transcript-body" style="display:none;">
+          <div class="transcript-content">
+            <p><strong>Dr. Patel:</strong> So Chris, I've had a chance to review all your imaging and pathology results, and I want to walk you through everything today so we can put together a treatment plan.</p>
+            <p><strong>Chris:</strong> Okay. I'm recording this if that's all right — just so I can go back and listen.</p>
+            <p><strong>Dr. Patel:</strong> Of course, absolutely. So what we're looking at is a squamous cell carcinoma of the left palatine tonsil. The biopsy confirmed it, and the good news is that it's HPV-positive, which we call p16-positive. That's actually favorable because HPV-related throat cancers tend to respond very well to treatment...</p>
+            <p class="transcript-fade"><em>[Full transcript continues — 23 minutes]</em></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>Powered by <a href="../index.html" class="logo-inline">After<span>Words</span></a> &mdash; Because every word matters.</p>
+    </div>
+  </footer>
+
+  <!-- Share to Care Circle Modal -->
+  <div class="modal-overlay" id="share-modal" style="display:none;">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Share to Your Care Circle</h2>
+        <button class="modal-close" id="modal-close">&#x2715;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Personal note -->
+        <div class="share-note-section">
+          <label for="share-note">Add a personal note</label>
+          <p class="share-note-hint">Put it in your own words — how are you feeling? What do you want people to know?</p>
+          <textarea id="share-note" class="share-note" placeholder="Hey everyone — had my appointment today. Here's the update..."></textarea>
+        </div>
+
+        <!-- Photo upload -->
+        <div class="share-photo-section">
+          <label class="share-sections-label">Add a photo <span class="optional-tag">optional</span></label>
+          <div class="photo-upload-zone" id="photo-upload-zone">
+            <div class="photo-upload-empty" id="photo-empty">
+              <span class="photo-upload-icon">&#x1f4f7;</span>
+              <span>Add a photo to your update</span>
+            </div>
+            <input type="file" id="photo-input" accept="image/*" hidden>
+          </div>
+          <div class="photo-preview-wrapper" id="photo-preview-wrapper" style="display:none;">
+            <div class="photo-preview-img-wrap">
+              <img id="photo-preview-img" src="" alt="Photo preview">
+              <button class="photo-remove" id="photo-remove" title="Remove photo">&#x2715;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Select sections to include -->
+        <div class="share-sections">
+          <label class="share-sections-label">Include from your recap:</label>
+          <div class="share-section-options">
+            <label class="share-option">
+              <input type="checkbox" value="diagnosis" checked>
+              <span class="share-option-text">
+                <strong>Diagnosis</strong>
+                <em>Squamous cell carcinoma, Stage II, HPV-positive</em>
+              </span>
+            </label>
+            <label class="share-option">
+              <input type="checkbox" value="treatment" checked>
+              <span class="share-option-text">
+                <strong>Treatment Plan</strong>
+                <em>7 weeks radiation + chemo, starting April 1</em>
+              </span>
+            </label>
+            <label class="share-option">
+              <input type="checkbox" value="medications">
+              <span class="share-option-text">
+                <strong>Medications</strong>
+                <em>Cisplatin, Zofran, Magic Mouthwash, Oxycodone</em>
+              </span>
+            </label>
+            <label class="share-option">
+              <input type="checkbox" value="actions" checked>
+              <span class="share-option-text">
+                <strong>Action Items</strong>
+                <em>Dental clearance, bloodwork, prescriptions</em>
+              </span>
+            </label>
+            <label class="share-option">
+              <input type="checkbox" value="questions">
+              <span class="share-option-text">
+                <strong>Questions for Next Visit</strong>
+                <em>6 follow-up questions</em>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Preview -->
+        <div class="share-preview">
+          <div class="share-preview-label">Preview</div>
+          <div class="share-preview-card" id="share-preview-card">
+            <div class="preview-photo" id="preview-photo" style="display:none;">
+              <img id="preview-photo-img" src="" alt="Preview">
+            </div>
+            <div class="preview-note" id="preview-note">
+              <p><em>Your personal note will appear here...</em></p>
+            </div>
+            <div class="preview-attached">
+              <span class="preview-attached-icon">&#x1f4cb;</span>
+              <span id="preview-sections-count">3 recap sections attached</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="modal-cancel">Cancel</button>
+        <button class="btn btn-accent" id="modal-share">Post to Care Circle</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/record.js"></script>
+</body>
+</html>
