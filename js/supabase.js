@@ -24,7 +24,7 @@ async function signInWithMagicLink(email) {
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: window.location.origin + '/app/dashboard.html',
+      emailRedirectTo: 'https://webbersaur.github.io/afterwords/app/dashboard.html',
     },
   });
   return { error };
