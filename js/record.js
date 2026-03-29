@@ -2,6 +2,12 @@
    AfterWords — Record / Visit Recap JS
    ======================================== */
 
+// --- Auth check ---
+(async () => {
+  const session = await requireAuth();
+  if (!session) return;
+})();
+
 // --- Tab switching ---
 const tabs = document.querySelectorAll('.tab');
 const tabContents = document.querySelectorAll('.tab-content');
@@ -15,7 +21,7 @@ tabs.forEach((tab) => {
   });
 });
 
-// --- Recorder simulation (MVP demo) ---
+// --- Real audio recording via MediaRecorder ---
 const btnRecord = document.getElementById('btn-record');
 const btnStop = document.getElementById('btn-stop');
 const recorderRing = document.getElementById('recorder-ring');
@@ -26,25 +32,47 @@ const waveform = document.getElementById('waveform');
 let recording = false;
 let timerInterval = null;
 let seconds = 0;
+let mediaRecorder = null;
+let audioChunks = [];
+let recordedBlob = null;
 
-btnRecord.addEventListener('click', () => {
+btnRecord.addEventListener('click', async () => {
   if (!recording) {
-    startRecording();
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      startRecording(stream);
+    } catch (err) {
+      recorderStatus.textContent = 'Microphone access denied. Please allow microphone access and try again.';
+    }
   }
 });
 
 btnStop.addEventListener('click', () => {
   stopRecording();
-  showProcessing();
 });
 
-function startRecording() {
+function startRecording(stream) {
   recording = true;
+  audioChunks = [];
   recorderRing.classList.add('recording');
   waveform.classList.add('active');
   btnRecord.style.display = 'none';
   btnStop.style.display = 'inline-flex';
   recorderStatus.textContent = 'Recording...';
+
+  mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+
+  mediaRecorder.ondataavailable = (e) => {
+    if (e.data.size > 0) audioChunks.push(e.data);
+  };
+
+  mediaRecorder.onstop = () => {
+    recordedBlob = new Blob(audioChunks, { type: 'audio/webm' });
+    stream.getTracks().forEach((track) => track.stop());
+    processAudio(recordedBlob);
+  };
+
+  mediaRecorder.start(1000); // collect in 1s chunks
 
   seconds = 0;
   timerInterval = setInterval(() => {
@@ -60,7 +88,11 @@ function stopRecording() {
   recorderRing.classList.remove('recording');
   waveform.classList.remove('active');
   clearInterval(timerInterval);
-  recorderStatus.textContent = 'Recording stopped';
+  recorderStatus.textContent = 'Processing...';
+
+  if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+    mediaRecorder.stop();
+  }
 }
 
 // --- Upload zone ---
@@ -71,6 +103,8 @@ const fileName = document.getElementById('file-name');
 const fileSize = document.getElementById('file-size');
 const fileRemove = document.getElementById('file-remove');
 const btnUploadProcess = document.getElementById('btn-upload-process');
+
+let uploadedFile = null;
 
 uploadZone.addEventListener('click', () => fileInput.click());
 
@@ -98,6 +132,7 @@ fileInput.addEventListener('change', () => {
 });
 
 function handleFile(file) {
+  uploadedFile = file;
   fileName.textContent = file.name;
   fileSize.textContent = formatFileSize(file.size);
   uploadZone.style.display = 'none';
@@ -106,12 +141,15 @@ function handleFile(file) {
 
 fileRemove.addEventListener('click', () => {
   fileInput.value = '';
+  uploadedFile = null;
   uploadZone.style.display = 'block';
   uploadPreview.style.display = 'none';
 });
 
 btnUploadProcess.addEventListener('click', () => {
-  showProcessing();
+  if (uploadedFile) {
+    processAudio(uploadedFile);
+  }
 });
 
 function formatFileSize(bytes) {
@@ -120,49 +158,190 @@ function formatFileSize(bytes) {
   return (bytes / 1048576).toFixed(1) + ' MB';
 }
 
-// --- Processing simulation ---
-function showProcessing() {
+// --- Main processing pipeline ---
+async function processAudio(audioBlob) {
+  // Show processing UI
   document.getElementById('step-record').style.display = 'none';
   document.getElementById('step-process').style.display = 'block';
 
-  const steps = [
-    { id: 'p-step-1', delay: 0, duration: 2500 },
-    { id: 'p-step-2', delay: 2500, duration: 2000 },
-    { id: 'p-step-3', delay: 4500, duration: 2000 }
-  ];
+  const pStep1 = document.getElementById('p-step-1');
+  const pStep2 = document.getElementById('p-step-2');
+  const pStep3 = document.getElementById('p-step-3');
+  const processingTitle = document.getElementById('processing-title');
 
-  steps.forEach((step, i) => {
-    // Mark step as active
-    setTimeout(() => {
-      const el = document.getElementById(step.id);
-      el.classList.add('active');
-      el.querySelector('.p-step-icon').classList.add('spinning');
+  try {
+    const user = await getUser();
+    if (!user) throw new Error('Not authenticated');
 
-      // Update title text
-      const titles = [
-        'Transcribing your recording...',
-        'Analyzing medical content...',
-        'Generating your summary...'
-      ];
-      document.getElementById('processing-title').textContent = titles[i];
-    }, step.delay);
+    // Step 1: Upload audio to Supabase Storage
+    markStepActive(pStep1);
+    processingTitle.textContent = 'Uploading your recording...';
 
-    // Mark step as done
-    setTimeout(() => {
-      const el = document.getElementById(step.id);
-      el.classList.remove('active');
-      el.classList.add('done');
-      el.querySelector('.p-step-icon').classList.remove('spinning');
-      el.querySelector('.p-step-icon').textContent = '\u2713';
-    }, step.delay + step.duration);
-  });
+    const audioPath = `${user.id}/${Date.now()}.webm`;
+    const { error: uploadError } = await _supabase.storage
+      .from('recordings')
+      .upload(audioPath, audioBlob, { contentType: 'audio/webm' });
 
-  // Show recap after all steps
-  setTimeout(() => {
-    document.getElementById('step-process').style.display = 'none';
-    document.getElementById('step-recap').style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, 7000);
+    if (uploadError) throw new Error(`Upload failed: ${uploadError.message}`);
+
+    // Create recap record in database
+    const { data: recap, error: recapError } = await supabase
+      .from('recaps')
+      .insert({ user_id: user.id, audio_path: audioPath, status: 'pending' })
+      .select()
+      .single();
+
+    if (recapError) throw new Error(`Failed to create recap: ${recapError.message}`);
+
+    // Step 2: Transcribe
+    markStepDone(pStep1);
+    markStepActive(pStep2);
+    processingTitle.textContent = 'Transcribing your recording...';
+
+    const transcribeRes = await _supabase.functions.invoke('transcribe', {
+      body: { recap_id: recap.id, audio_path: audioPath },
+    });
+
+    if (transcribeRes.error) throw new Error(`Transcription failed: ${transcribeRes.error.message}`);
+
+    // Step 3: Summarize
+    markStepDone(pStep2);
+    markStepActive(pStep3);
+    processingTitle.textContent = 'Generating your summary...';
+
+    const summarizeRes = await _supabase.functions.invoke('summarize', {
+      body: { recap_id: recap.id },
+    });
+
+    if (summarizeRes.error) throw new Error(`Summary failed: ${summarizeRes.error.message}`);
+
+    markStepDone(pStep3);
+
+    // Show recap
+    const summary = summarizeRes.data.summary;
+    const transcript = transcribeRes.data.transcript;
+    renderRecap(summary, transcript, recap.id);
+
+  } catch (error) {
+    processingTitle.textContent = 'Something went wrong';
+    document.getElementById('processing-sub').textContent = error.message;
+    document.querySelector('.processing-spinner').style.display = 'none';
+  }
+}
+
+function markStepActive(el) {
+  el.classList.add('active');
+  el.querySelector('.p-step-icon').classList.add('spinning');
+}
+
+function markStepDone(el) {
+  el.classList.remove('active');
+  el.classList.add('done');
+  const icon = el.querySelector('.p-step-icon');
+  icon.classList.remove('spinning');
+  icon.textContent = '\u2713';
+}
+
+// --- Render real AI recap ---
+let currentRecapId = null;
+
+function renderRecap(summary, transcript, recapId) {
+  currentRecapId = recapId;
+
+  document.getElementById('step-process').style.display = 'none';
+  document.getElementById('step-recap').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Title
+  document.querySelector('.recap-date').textContent = summary.title || 'Visit Recap';
+
+  // Build recap grid
+  const grid = document.querySelector('.recap-grid');
+  grid.innerHTML = '';
+
+  // Diagnosis card
+  if (summary.diagnosis) {
+    grid.innerHTML += recapCard('&#x1f4cb;', '', 'Diagnosis', `
+      <p>${escapeHtml(summary.diagnosis.summary)}</p>
+      ${summary.diagnosis.details ? summary.diagnosis.details.map(d =>
+        `<p>${escapeHtml(d)}</p>`
+      ).join('') : ''}
+    `);
+  }
+
+  // Treatment Plan card
+  if (summary.treatment_plan && summary.treatment_plan.length) {
+    grid.innerHTML += recapCard('&#x1f489;', 'accent', 'Treatment Plan', `
+      <ul>
+        ${summary.treatment_plan.map(t => `
+          <li><strong>${escapeHtml(t.type)}:</strong> ${escapeHtml(t.description)}${t.details ? ' — ' + escapeHtml(t.details) : ''}</li>
+        `).join('')}
+      </ul>
+    `);
+  }
+
+  // Key Findings card
+  if (summary.key_findings && summary.key_findings.length) {
+    grid.innerHTML += recapCard('&#x1f50d;', '', 'Key Findings', `
+      ${summary.key_findings.map(f => `
+        <div class="med-item">
+          <strong>${escapeHtml(f.finding)}</strong>
+          <span class="med-detail">${escapeHtml(f.detail)}</span>
+          <span class="med-purpose">${escapeHtml(f.significance)}</span>
+        </div>
+      `).join('')}
+    `);
+  }
+
+  // Action Items card
+  if (summary.action_items && summary.action_items.length) {
+    grid.innerHTML += recapCard('&#x2705;', 'accent', 'Action Items', `
+      <div class="action-list">
+        ${summary.action_items.map(a => `
+          <label class="action-item">
+            <input type="checkbox">
+            <span>${escapeHtml(a)}</span>
+          </label>
+        `).join('')}
+      </div>
+    `);
+  }
+
+  // Follow-up Questions card
+  if (summary.follow_up_questions && summary.follow_up_questions.length) {
+    grid.innerHTML += `
+      <div class="recap-card full-width">
+        <div class="recap-card-header">
+          <div class="recap-card-icon">&#x2753;</div>
+          <h3>Questions for Next Visit</h3>
+        </div>
+        <div class="recap-card-body">
+          <p class="questions-intro">Based on your conversation, here are questions you may want to ask at your next appointment:</p>
+          <ol class="questions-list">
+            ${summary.follow_up_questions.map(q => `<li>${escapeHtml(q)}</li>`).join('')}
+          </ol>
+        </div>
+      </div>
+    `;
+  }
+
+  // Transcript
+  if (transcript) {
+    document.querySelector('.transcript-content').innerHTML =
+      `<p>${escapeHtml(transcript)}</p>`;
+  }
+}
+
+function recapCard(icon, variant, title, bodyHtml) {
+  return `
+    <div class="recap-card">
+      <div class="recap-card-header">
+        <div class="recap-card-icon ${variant}">${icon}</div>
+        <h3>${escapeHtml(title)}</h3>
+      </div>
+      <div class="recap-card-body">${bodyHtml}</div>
+    </div>
+  `;
 }
 
 // --- Transcript toggle ---
@@ -185,13 +364,11 @@ const previewNote = document.getElementById('preview-note');
 const previewSectionsCount = document.getElementById('preview-sections-count');
 const sectionCheckboxes = document.querySelectorAll('.share-option input[type="checkbox"]');
 
-// Open modal
 btnShare.addEventListener('click', () => {
   shareModal.style.display = 'flex';
   shareNote.focus();
 });
 
-// Close modal
 function closeModal() {
   shareModal.style.display = 'none';
 }
@@ -203,7 +380,6 @@ shareModal.addEventListener('click', (e) => {
   if (e.target === shareModal) closeModal();
 });
 
-// Live preview of personal note
 shareNote.addEventListener('input', () => {
   const text = shareNote.value.trim();
   if (text) {
@@ -213,7 +389,6 @@ shareNote.addEventListener('input', () => {
   }
 });
 
-// Update section count
 function updateSectionCount() {
   const checked = document.querySelectorAll('.share-option input:checked').length;
   if (checked === 0) {
@@ -244,13 +419,9 @@ photoInput.addEventListener('change', () => {
   if (photoInput.files.length) {
     const file = photoInput.files[0];
     const url = URL.createObjectURL(file);
-
-    // Show photo preview in upload area
     photoPreviewImg.src = url;
     photoUploadZone.style.display = 'none';
     photoPreviewWrapper.style.display = 'block';
-
-    // Show in live preview card
     previewPhotoImg.src = url;
     previewPhoto.style.display = 'block';
   }
@@ -264,26 +435,56 @@ photoRemove.addEventListener('click', () => {
   previewPhotoImg.src = '';
 });
 
-// Post to Care Circle
-modalShare.addEventListener('click', () => {
+// Post to Care Circle (now saves to Supabase)
+modalShare.addEventListener('click', async () => {
   const note = shareNote.value.trim();
   const sections = [...document.querySelectorAll('.share-option input:checked')].map(cb => cb.value);
 
-  // Show success state
-  const modalBody = document.querySelector('.modal-body');
-  const modalFooter = document.querySelector('.modal-footer');
+  modalShare.disabled = true;
+  modalShare.textContent = 'Posting...';
 
-  modalBody.innerHTML = `
-    <div class="share-success">
-      <div class="share-success-icon">&#x2705;</div>
-      <h3>Posted to Your Care Circle!</h3>
-      <p>Your update is live. Friends and family can see it now.</p>
-    </div>
-  `;
-  modalFooter.innerHTML = `
-    <a href="care-circle.html" class="btn btn-primary">View Care Circle</a>
-    <button class="btn btn-outline" onclick="document.getElementById('share-modal').style.display='none'">Close</button>
-  `;
+  try {
+    const user = await getUser();
+    let photoPath = null;
+
+    // Upload photo if present
+    if (photoInput.files.length) {
+      const photo = photoInput.files[0];
+      photoPath = `${user.id}/${Date.now()}-${photo.name}`;
+      await _supabase.storage.from('photos').upload(photoPath, photo);
+    }
+
+    // Insert care circle post
+    const { error } = await _supabase.from('care_circle_posts').insert({
+      user_id: user.id,
+      recap_id: currentRecapId,
+      note,
+      photo_path: photoPath,
+      shared_sections: sections,
+    });
+
+    if (error) throw error;
+
+    // Success UI
+    const modalBody = document.querySelector('.modal-body');
+    const modalFooter = document.querySelector('.modal-footer');
+
+    modalBody.innerHTML = `
+      <div class="share-success">
+        <div class="share-success-icon">&#x2705;</div>
+        <h3>Posted to Your Care Circle!</h3>
+        <p>Your update is live. Friends and family can see it now.</p>
+      </div>
+    `;
+    modalFooter.innerHTML = `
+      <a href="care-circle.html" class="btn btn-primary">View Care Circle</a>
+      <button class="btn btn-outline" onclick="document.getElementById('share-modal').style.display='none'">Close</button>
+    `;
+  } catch (err) {
+    modalShare.disabled = false;
+    modalShare.textContent = 'Post to Care Circle';
+    alert('Failed to post: ' + err.message);
+  }
 });
 
 function escapeHtml(str) {

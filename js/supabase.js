@@ -6,22 +6,22 @@ const SUPABASE_URL = 'https://ozwnzzfntdaeabjvggzz.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im96d256emZudGRhZWFianZnZ3p6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4MDc0NDksImV4cCI6MjA5MDM4MzQ0OX0._qH7LtOUQ1nVSFOiI-HTAiW_VpSZVYsuqtG0lG6BK18';
 
 // Initialize client (loaded via CDN in HTML)
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // --- Auth helpers ---
 
 async function getUser() {
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user } } = await _supabase.auth.getUser();
   return user;
 }
 
 async function getSession() {
-  const { data: { session } } = await supabase.auth.getSession();
+  const { data: { session } } = await _supabase.auth.getSession();
   return session;
 }
 
 async function signInWithMagicLink(email) {
-  const { error } = await supabase.auth.signInWithOtp({
+  const { error } = await _supabase.auth.signInWithOtp({
     email,
     options: {
       emailRedirectTo: 'https://webbersaur.github.io/afterwords/app/dashboard.html',
@@ -31,7 +31,7 @@ async function signInWithMagicLink(email) {
 }
 
 async function signOut() {
-  const { error } = await supabase.auth.signOut();
+  const { error } = await _supabase.auth.signOut();
   if (!error) window.location.href = '/index.html';
   return { error };
 }
@@ -47,7 +47,7 @@ async function requireAuth() {
 }
 
 // Listen for auth state changes
-supabase.auth.onAuthStateChange((event, session) => {
+_supabase.auth.onAuthStateChange((event, session) => {
   if (event === 'SIGNED_OUT') {
     window.location.href = '/index.html';
   }
