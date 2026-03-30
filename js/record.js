@@ -185,7 +185,7 @@ async function processAudio(audioBlob) {
     if (uploadError) throw new Error(`Upload failed: ${uploadError.message}`);
 
     // Create recap record in database
-    const { data: recap, error: recapError } = await supabase
+    const { data: recap, error: recapError } = await _supabase
       .from('recaps')
       .insert({ user_id: user.id, audio_path: audioPath, status: 'pending' })
       .select()

@@ -8,6 +8,11 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 // Initialize client (loaded via CDN in HTML)
 const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// Base URL for redirects — works on GitHub Pages (/afterwords/) and localhost
+const BASE_URL = location.pathname.includes('/afterwords/')
+  ? location.origin + '/afterwords'
+  : location.origin;
+
 // --- Auth helpers ---
 
 async function getUser() {
@@ -24,7 +29,7 @@ async function signInWithMagicLink(email) {
   const { error } = await _supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: 'https://webbersaur.github.io/afterwords/app/dashboard.html',
+      emailRedirectTo: BASE_URL + '/app/dashboard.html',
     },
   });
   return { error };
@@ -32,7 +37,7 @@ async function signInWithMagicLink(email) {
 
 async function signOut() {
   const { error } = await _supabase.auth.signOut();
-  if (!error) window.location.href = '/index.html';
+  if (!error) window.location.href = BASE_URL + '/index.html';
   return { error };
 }
 
@@ -40,7 +45,7 @@ async function signOut() {
 async function requireAuth() {
   const session = await getSession();
   if (!session) {
-    window.location.href = '/app/login.html';
+    window.location.href = BASE_URL + '/app/login.html';
     return null;
   }
   return session;
@@ -49,6 +54,6 @@ async function requireAuth() {
 // Listen for auth state changes
 _supabase.auth.onAuthStateChange((event, session) => {
   if (event === 'SIGNED_OUT') {
-    window.location.href = '/index.html';
+    window.location.href = BASE_URL + '/index.html';
   }
 });
