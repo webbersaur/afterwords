@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AfterWords — Partnership Proposal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-primary: #2a7d6e;
+      --color-primary-light: #e6f5f1;
+      --color-primary-dark: #1d5a4f;
+      --color-accent: #e8944a;
+      --color-accent-light: #fdf1e6;
+      --color-text: #2d3436;
+      --color-text-light: #636e72;
+      --color-bg: #ffffff;
+      --color-border: #e0ddd8;
+    }
+
+    @page {
+      size: letter;
+      margin: 0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: var(--color-text);
+      background: var(--color-bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      max-width: 8.5in;
+      margin: 0 auto;
+    }
+
+    /* --- Header --- */
+    .header {
+      background: var(--color-primary);
+      color: white;
+      padding: 2rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-logo {
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    .header-logo span {
+      color: var(--color-accent);
+    }
+
+    .header-tagline {
+      font-size: 0.85rem;
+      opacity: 0.85;
+      margin-top: 0.15rem;
+    }
+
+    .header-type {
+      text-align: right;
+      font-size: 0.85rem;
+      opacity: 0.85;
+    }
+
+    .header-type strong {
+      display: block;
+      font-size: 1rem;
+      opacity: 1;
+    }
+
+    /* --- Content --- */
+    .content {
+      padding: 2rem 2.5rem;
+    }
+
+    h2 {
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: 1.15rem;
+      color: var(--color-primary);
+      margin-bottom: 0.6rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 2px solid var(--color-primary-light);
+    }
+
+    p {
+      font-size: 0.88rem;
+      margin-bottom: 0.75rem;
+      max-width: 100%;
+    }
+
+    /* --- Problem / Story --- */
+    .story-block {
+      background: var(--color-primary-light);
+      border-left: 4px solid var(--color-primary);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .story-block p {
+      font-size: 0.88rem;
+      font-style: italic;
+      margin-bottom: 0.35rem;
+    }
+
+    .story-block cite {
+      font-style: normal;
+      font-size: 0.8rem;
+      color: var(--color-text-light);
+    }
+
+    /* --- Two Column --- */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-box {
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+    }
+
+    .feature-box h3 {
+      font-size: 0.95rem;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .feature-box p {
+      font-size: 0.82rem;
+      color: var(--color-text-light);
+    }
+
+    .feature-icon {
+      font-size: 1.2rem;
+    }
+
+    /* --- Pilot Section --- */
+    .section {
+      margin-bottom: 1.5rem;
+    }
+
+    .pilot-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .pilot-card {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      padding: 1rem;
+    }
+
+    .pilot-card h4 {
+      font-size: 0.85rem;
+      color: var(--color-primary);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .pilot-card ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .pilot-card li {
+      font-size: 0.82rem;
+      padding: 0.2rem 0;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .pilot-card li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.55rem;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--color-primary);
+    }
+
+    /* --- Metrics --- */
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .metric {
+      text-align: center;
+      padding: 0.75rem;
+      background: var(--color-accent-light);
+      border-radius: 8px;
+    }
+
+    .metric-number {
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      line-height: 1.2;
+    }
+
+    .metric-label {
+      font-size: 0.7rem;
+      color: var(--color-text-light);
+      margin-top: 0.15rem;
+    }
+
+    /* --- Partnership Tiers --- */
+    .tiers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .tier {
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .tier.featured {
+      border-color: var(--color-primary);
+      border-width: 2px;
+      background: var(--color-primary-light);
+    }
+
+    .tier h4 {
+      font-size: 0.85rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .tier .tier-price {
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 0.35rem;
+    }
+
+    .tier p {
+      font-size: 0.75rem;
+      color: var(--color-text-light);
+      margin-bottom: 0;
+    }
+
+    .tier-rec {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: var(--color-primary);
+      color: white;
+      padding: 0.15rem 0.5rem;
+      border-radius: 10px;
+      margin-bottom: 0.35rem;
+    }
+
+    /* --- CTA Footer --- */
+    .cta-footer {
+      background: var(--color-primary);
+      color: white;
+      padding: 1.25rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cta-footer p {
+      font-size: 0.85rem;
+      margin-bottom: 0;
+      opacity: 0.9;
+    }
+
+    .cta-footer strong {
+      font-size: 1rem;
+      display: block;
+      opacity: 1;
+    }
+
+    .cta-contact {
+      text-align: right;
+      font-size: 0.85rem;
+    }
+
+    .cta-contact a {
+      color: var(--color-accent);
+      text-decoration: none;
+    }
+
+    /* --- Subtle note --- */
+    .fine-print {
+      font-size: 0.72rem;
+      color: var(--color-text-light);
+      text-align: center;
+      padding: 0.75rem 2.5rem;
+      border-top: 1px solid var(--color-border);
+    }
+
+    /* --- Print --- */
+    @media print {
+      body {
+        max-width: 100%;
+      }
+
+      .header, .cta-footer {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .story-block, .metric, .tier.featured, .pilot-card {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <div class="header-logo">After<span>Words</span></div>
+      <div class="header-tagline">Because every word matters.</div>
+    </div>
+    <div class="header-type">
+      <strong>Pilot Partnership Proposal</strong>
+      Prepared March 2026
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- The Problem -->
+    <div class="section">
+      <h2>The Problem</h2>
+      <p>When a patient hears the word "cancer," everything else fades out. Critical details about diagnosis, treatment plans, and next steps are lost in the moment. Then they're overwhelmed by dozens of well-meaning calls and texts — adding stress during the hardest time of their life.</p>
+
+      <div class="story-block">
+        <p>"When my doctor called to tell me I had cancer, I asked if I could record it — because I knew I wouldn't remember a word. That recording changed everything. I could go back, process it, and share it clearly with the people who needed to know."</p>
+        <cite>— Chris Hauman, cancer survivor &amp; AfterWords founder</cite>
+      </div>
+    </div>
+
+    <!-- The Solution -->
+    <div class="section">
+      <h2>The Solution</h2>
+      <p>AfterWords is a patient-first web app that solves both problems in one experience:</p>
+
+      <div class="two-col">
+        <div class="feature-box">
+          <h3><span class="feature-icon">&#x1f399;</span> Visit Recap</h3>
+          <p>Patients record or upload their doctor visits. AI transcribes the conversation and generates a structured summary — diagnosis, treatment plan, action items, and follow-up questions — in plain language they can review at their own pace.</p>
+        </div>
+        <div class="feature-box">
+          <h3><span class="feature-icon">&#x1f465;</span> Care Circle</h3>
+          <p>A private update page where patients (or caregivers) post updates about their journey. Friends and family follow along and send messages of support — no more fielding dozens of individual calls and texts.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Why It Matters -->
+    <div class="section">
+      <h2>Why It Matters for Patient Support Programs</h2>
+
+      <div class="metrics">
+        <div class="metric">
+          <div class="metric-number">40%</div>
+          <div class="metric-label">of patients forget key details immediately after diagnosis</div>
+        </div>
+        <div class="metric">
+          <div class="metric-number">80%</div>
+          <div class="metric-label">report feeling overwhelmed by communication demands</div>
+        </div>
+        <div class="metric">
+          <div class="metric-number">3x</div>
+          <div class="metric-label">better adherence when patients understand their plan</div>
+        </div>
+        <div class="metric">
+          <div class="metric-number">92%</div>
+          <div class="metric-label">of caregivers want a centralized way to share updates</div>
+        </div>
+      </div>
+
+      <p>Advocacy groups invest heavily in patient support but lack tools that meet patients in their moment of need. AfterWords fills that gap — immediately useful, deeply personal, and brandable as a member benefit.</p>
+    </div>
+
+    <!-- The Pilot -->
+    <div class="section">
+      <h2>Proposed Pilot Program</h2>
+      <p><strong>Duration:</strong> 3 months &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Patients:</strong> 50–100 &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Cost:</strong> No charge during pilot</p>
+
+      <div class="pilot-grid">
+        <div class="pilot-card">
+          <h4>You Bring</h4>
+          <ul>
+            <li>One advocacy group willing to participate</li>
+            <li>50–100 cancer patients as pilot users</li>
+            <li>Your organization's name and branding</li>
+            <li>Introduction to advocacy group leadership</li>
+          </ul>
+        </div>
+        <div class="pilot-card">
+          <h4>We Bring</h4>
+          <ul>
+            <li>The AfterWords platform, fully hosted</li>
+            <li>Co-branded experience with your logo</li>
+            <li>Patient onboarding and support</li>
+            <li>Engagement reporting and feedback analysis</li>
+          </ul>
+        </div>
+      </div>
+
+      <p><strong>Success metrics:</strong> Patient adoption rate, recaps created, Care Circle engagement, patient satisfaction scores, and qualitative feedback — building a case study for scale.</p>
+    </div>
+
+    <!-- Post-Pilot Pricing -->
+    <div class="section">
+      <h2>Post-Pilot Partnership Options</h2>
+
+      <div class="tiers">
+        <div class="tier">
+          <h4>Annual License</h4>
+          <div class="tier-price">$25–50K/yr</div>
+          <p>Unlimited patients. Co-branded. Quarterly engagement reports. Ideal for single advocacy groups.</p>
+        </div>
+        <div class="tier featured">
+          <div class="tier-rec">Recommended</div>
+          <h4>Per Patient</h4>
+          <div class="tier-price">$3–5/mo</div>
+          <p>Scales with your program. Lower commitment. Pay only for active patients. Perfect for pilots that grow.</p>
+        </div>
+        <div class="tier">
+          <h4>Enterprise</h4>
+          <div class="tier-price">$100K+/yr</div>
+          <p>Multiple advocacy groups. Custom integrations. Dedicated support. For pharma-wide patient programs.</p>
+        </div>
+      </div>
+
+      <p style="font-size: 0.82rem; color: var(--color-text-light);">Patient data is never shared with sponsors. All engagement reporting is anonymized and aggregated. Patients trust AfterWords because it works for them — that trust is the product.</p>
+    </div>
+
+  </div>
+
+  <!-- CTA Footer -->
+  <div class="cta-footer">
+    <div>
+      <strong>Let's run the pilot.</strong>
+      <p>A working demo is live now. See it at webbersaur.github.io/afterwords</p>
+    </div>
+    <div class="cta-contact">
+      <strong>Chris Hauman</strong>
+      203.530.7396<br>
+      chrishauman@gmail.com<br>
+      <a href="https://webbersaur.us">webbersaur.us</a>
+    </div>
+  </div>
+
+  <div class="fine-print">
+    &copy; 2026 AfterWords &mdash; Built from lived experience. Designed for patients. Ready to scale.
+  </div>
+
+</body>
+</html>

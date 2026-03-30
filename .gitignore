@@ -5,5 +5,8 @@
 # OS files
 .DS_Store
 
+# Private audio recordings
+assets/
+
 # Supabase local
 supabase/.temp/
