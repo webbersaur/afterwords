@@ -48,6 +48,7 @@ async function requireAuth() {
     window.location.href = BASE_URL + '/app/login.html';
     return null;
   }
+  document.body.style.visibility = 'visible';
   return session;
 }
 

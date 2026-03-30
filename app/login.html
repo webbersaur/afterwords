@@ -132,6 +132,17 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabase.js"></script>
   <script>
+    // Check for auth errors in URL (expired/invalid magic links)
+    const hashParams = new URLSearchParams(location.hash.substring(1));
+    const authError = hashParams.get('error_description') || hashParams.get('error');
+    if (authError) {
+      const message = document.getElementById('login-message');
+      message.className = 'login-message error';
+      message.textContent = authError.replace(/\+/g, ' ');
+      message.style.display = 'block';
+      history.replaceState(null, '', location.pathname);
+    }
+
     // If already logged in, redirect to dashboard
     (async () => {
       const session = await getSession();

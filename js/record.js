@@ -483,7 +483,9 @@ modalShare.addEventListener('click', async () => {
   } catch (err) {
     modalShare.disabled = false;
     modalShare.textContent = 'Post to Care Circle';
-    alert('Failed to post: ' + err.message);
+    const shareError = document.getElementById('share-error');
+    shareError.textContent = 'Failed to post: ' + err.message;
+    shareError.style.display = 'block';
   }
 });
 

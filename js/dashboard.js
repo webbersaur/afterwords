@@ -2,6 +2,12 @@
    AfterWords — Dashboard JS
    ======================================== */
 
+// --- Auth check ---
+(async () => {
+  const session = await requireAuth();
+  if (!session) return;
+})();
+
 // --- Mobile nav toggle ---
 const navToggle = document.querySelector('.nav-toggle');
 const nav = document.querySelector('nav');
@@ -17,7 +23,7 @@ const btnCopyLink = document.getElementById('btn-copy-link');
 
 if (btnCopyLink) {
   btnCopyLink.addEventListener('click', () => {
-    const link = window.location.origin + '/app/care-circle.html';
+    const link = BASE_URL + '/app/care-circle.html';
 
     navigator.clipboard.writeText(link).then(() => {
       showToast('Share link copied!');
